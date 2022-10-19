@@ -1,5 +1,5 @@
 # FindPeaks
-ABR peak labeling program
+semi-automated ABR peak registration program
 
 Those scripts contain the following functions:
 

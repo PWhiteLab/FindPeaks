@@ -33,12 +33,14 @@
 # algorithm is adapted from William A. Huber (http://stats.stackexchange.com/questions/36309/how-do-i-find-peaks-in-a-dataset).
 # author: Daxiang Na (daxiang_na@urmc.rochester.edu)
 #
-# ver 2022.08.17
+# ver 2023.04.11
 ########
 
 library(tidyverse)
 library(plotly)
 library(zoo)
+library(readr)
+
 
 # Define ABRs that begin (min) at 1 (ms) and end (max) at 8 (ms), amplitude threshold > 0.1 (μV). 
 # Change those parameters as you need.
@@ -141,7 +143,8 @@ See_trace <- function(file) {
 
 Average_Waveform <- function(directory, mapping = aes(x = Data_Pnt_ms, y = `75`, group = Genotype, color = Genotype)) {
         file_list <- list.files(directory, full.names = TRUE)
-        info <- read.csv("Info.csv")
+        # info <- read.csv("Info.csv")
+        info <- read_csv("Info.csv", col_types = cols(ID = col_character()))
         df <- data.frame()
         for (i in 1:length(file_list)) {
                 animalID <- tools::file_path_sans_ext(basename(file_list[i]))
@@ -221,7 +224,8 @@ FindPeaks_group <- function(directory) {
 # helper function to put revised csv files into one master sheet
 Compile <- function(directory) {
         file_list <- list.files(directory,full.names = TRUE)
-        info <- read.csv("Info.csv")
+        # info <- read.csv("Info.csv")
+        info <- read_csv("Info.csv", col_types = cols(ID = col_character()))
         df <- data.frame()
         for (i in 1:length(file_list)) {
                 data <- read.csv(file_list[i], header = TRUE)
